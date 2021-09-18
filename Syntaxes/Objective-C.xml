@@ -1,0 +1,198 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<syntax name="objc">
+	<meta>
+		<name>Objective-C</name>
+		<type>compiled</type>
+		<preferred-file-extension>m</preferred-file-extension>
+	</meta>
+	
+	<detectors>
+		<extension priority="1.0">m,mm,x,xm,h,xi</extension>
+	</detectors>
+	
+	<indentation>
+		<increase>
+			<expression>^\s*&lt;(([^!/?]|%)(?!.+?([/%]&gt;|&lt;/.+?&gt;))|[%!]--\s*$)</expression>
+		</increase>
+		<decrease>
+			<expression>^\s*(&lt;/[^&gt;]+&gt;|--&gt;|--%&gt;)</expression>
+		</decrease>
+	</indentation>
+	
+	<comments>
+		<single>
+			<expression>//</expression>
+		</single>
+		<multiline>
+			<starts-with>
+				<expression>/*</expression>
+			</starts-with>
+			<ends-with>
+				<expression>*/</expression>
+			</ends-with>
+		</multiline>
+	</comments>
+	
+	<brackets>
+		<pair open="{" close="}" />
+		<pair open="[" close="]" />
+		<pair open="(" close=")" />
+	</brackets>
+	
+	<surrounding-pairs>
+		<pair open="{" close="}" />
+		<pair open="[" close="]" />
+		<pair open="(" close=")" />
+		<pair open="&lt;" close="&gt;" />
+		<pair open="&apos;" close="&apos;" />
+		<pair open="&quot;" close="&quot;" />
+	</surrounding-pairs>
+	
+	<scopes>
+		<include syntax="self" collection="comments" />
+		<include syntax="self" collection="function-blocks" />
+		<include syntax="self" collection="keywords" />
+		<include syntax="self" collection="syntax" />
+		<include syntax="self" collection="strings" />
+		<include syntax="self" collection="values" />
+		<include syntax="self" collection="import" />
+		<include syntax="self" collection="definitions" />
+	</scopes>
+	
+	<collections>
+		<collection name="import">
+			<scope name="objc.import">
+				<starts-with>
+					<expression>(\#import|\#include)\s+([&lt;|"]*[A-Za-z0-9._]*[&gt;|"]*)</expression>
+					<capture number="1" name="objc.processing" />
+					<capture number="2" name="objc.identifier.package" />
+				</starts-with>
+				<ends-with>
+					<expression>$</expression>
+				</ends-with>
+			</scope>
+		</collection>
+		
+		<collection name="comments">
+			<scope name="objc.comment.single.shebang">
+				<expression>^\#!(.*)$</expression>
+				<capture number="1" name="objc.comment.content" />
+			</scope>
+			<scope name="objc.comment.single" spell-check="true">
+				<expression>//(?:/|!)?(.*)$</expression>
+				<capture number="1" name="objc.comment.content" />
+			</scope>
+			<scope name="objc.comment.block" spell-check="true">
+				<symbol type="comment">
+					<context behavior="subtree" />
+				</symbol>
+				<starts-with>
+					<expression>\/\*</expression>
+				</starts-with>
+				<ends-with>
+					<expression>\*\/</expression>
+				</ends-with>
+			</scope>
+		</collection>
+		
+		<collection name="definitions">
+			<scope name="objc.tag.name">
+				<symbol type="tag" />
+				<expression>(@(selector|protocol|interface|class|property|end)\b)|((?&lt;=%)(hook|init|end|orig|new|ctor))</expression>
+			</scope>
+			<scope name="objc.identifier.argument.name">
+				<symbol type="argument" />
+				<expression>((?&lt;!\) )\b[a-zA-Z]+(?=:(\S| )))|((?&lt;=(\.))([A-Za-z]*)\b)|(k[A-Z]+[A-Za-z0-9]+\b)</expression>
+			</scope>
+		</collection>
+		
+		<collection name="strings">
+			<scope name="objc.string">
+				<starts-with>
+					<expression>&quot;</expression>
+				</starts-with>
+				<ends-with>
+					<expression>&quot;</expression>
+				</ends-with>
+			</scope>
+		</collection>
+		
+		<collection name="function-blocks">
+			<scope name="objc.block">
+				<symbol type="block">
+					<context behavior="subtree" fold-type="function" />
+				</symbol>
+				<starts-with>
+					<expression>\{</expression>
+					<capture number="0" name="objc.bracket" />
+				</starts-with>
+				<ends-with>
+					<expression>\}</expression>
+					<capture number="0" name="objc.bracket" />
+				</ends-with>
+				<subscopes>
+					<include syntax="self" />
+				</subscopes>
+			</scope>
+		</collection>
+		
+		<collection name="keywords">
+			<scope name="objc.keyword">
+				<expression>\b(typedef\b|unsigned\b|goto\b|auto\b|sizeof\b|extern\b|break\b|catch\b|const\b|switch\b|case\b|return\b|self\b|static\b|bool\b|long\b|id\b|public\b|private\b|protected\b|function\b|class\b|if\b|else\b|while\b|for\b|char\b|int\b|float\b|double\b|void\b|unichar\b|([a-zA-Z]+\*)|(\b(CA|CG|CF|NS|UI)[A-Za-z0-9])\w+)</expression>
+				<!-- FIND CLASS INSTANCE METHODS LIKE initWithFrame: WITH THIS REGEX: [a-zA-Z]+(?=:(\S| [a-zA-Z0-9])) -->
+				<!-- FIND CONSTANTS LIKE kNilOptions WITH THIS REGEX: k[A-Z]+[A-Za-z0-9]+\b -->
+			</scope>
+		</collection>
+		
+		<collection name="values">
+			<include syntax="self" collection="strings" />
+			<scope name="objc.value.null">
+				<strings>
+					<string>null</string>
+					<string>nil</string>
+				</strings>
+			</scope>
+			<scope name="objc.value.boolean">
+				<strings>
+					<string>true</string>
+					<string>false</string>
+					<string>YES</string>
+					<string>NO</string>
+				</strings>
+			</scope>
+			<scope name="objc.value.number.hex">
+				<expression>\b0x[a-fA-F0-9]+\b</expression>
+			</scope>
+			<scope name="objc.value.number">
+				<expression>\b\-?(?:\d+(?:\.\d*)?|(?:\.\d+))\b</expression>
+			</scope>
+		</collection>
+		
+		<collection name="syntax">
+			<scope name="objc.bracket.block.start">
+				<symbol type="block">
+					<context behavior="start" />
+				</symbol>
+				<expression>\{</expression>
+			</scope>
+			<scope name="objc.bracket.block.end">
+				<symbol type="block">
+					<context behavior="end" />
+				</symbol>
+				<expression>\}</expression>
+			</scope>
+			<scope name="objc.bracket">
+				<expression>[\(\[\)\]]</expression>
+			</scope>
+			<scope name="objc.operator">
+				<expression>(\+|\-|\*|/|%|\+\+|\-\-|\=|\=\=|!\=|\+\=|\-\=|\*\=|/\=|%\=|\&lt;|\&gt;|\&lt;\=|\&gt;=|\=\=\=|!\=\=|&amp;&amp;|\||\|\||!|\^|&amp;|\&lt;\&lt;|\&gt;\&gt;|~)</expression>
+			</scope>
+			<scope name="objc.comma">
+				<expression>,</expression>
+			</scope>
+			<scope name="objc.semicolon">
+				<expression>;</expression>
+			</scope>
+		</collection>
+	</collections>
+</syntax>
