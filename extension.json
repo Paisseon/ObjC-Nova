@@ -1,8 +1,9 @@
 {
-    "identifier": "emt.paisseon.ObjectiveC",
+    "identifier": "emt.paisseon.ObjC",
     "name": "Objective-C",
     "organization": "Paisseon",
-    "description": "Emilia-tan maji tenshi, nanodesu!",
-    "version": "1.0",
-    "categories": ["languages"]
+    "description": "The language Panic forgot, nanodesu.",
+    "version": "1.0.2",
+    "categories": ["languages"],
+	"bugs": "https://reddit.com/u/paisseon"
 }

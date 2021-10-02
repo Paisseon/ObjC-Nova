@@ -98,11 +98,11 @@
 		<collection name="definitions">
 			<scope name="objc.tag.name">
 				<symbol type="tag" />
-				<expression>(@(selector|protocol|interface|class|property|end)\b)|((?&lt;=%)(hook|init|end|orig|new|ctor))</expression>
+				<expression>(@(selector|protocol|interface|class|property|end|implementation)\b)|((?&lt;=%)(hook|init|end|orig|new|ctor|group))</expression>
 			</scope>
 			<scope name="objc.identifier.argument.name">
 				<symbol type="argument" />
-				<expression>((?&lt;!\) )\b[a-zA-Z]+(?=:(\S| )))|((?&lt;=(\.))([A-Za-z]*)\b)|(k[A-Z]+[A-Za-z0-9]+\b)</expression>
+				<expression>((?&lt;!\) )\b[a-zA-Z]+(?=:(\S| )))|((?&lt;=(\.))([A-Za-z]*)\b)|\b(k[A-Z]+[A-Za-z0-9]+\b)</expression>
 			</scope>
 		</collection>
 		
