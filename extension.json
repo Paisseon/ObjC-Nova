@@ -1,9 +1,9 @@
 {
     "identifier": "emt.paisseon.ObjC",
-    "name": "Objective-C",
+    "name": "(Objective) C",
     "organization": "Paisseon",
-    "description": "The language Panic forgot, nanodesu.",
-    "version": "1.0.2",
+    "description": "Without love, it cannot be seen.",
+    "version": "1.2.2",
     "categories": ["languages"],
 	"bugs": "https://reddit.com/u/paisseon"
 }

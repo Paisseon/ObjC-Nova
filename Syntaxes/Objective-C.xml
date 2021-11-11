@@ -7,7 +7,7 @@
 	</meta>
 	
 	<detectors>
-		<extension priority="1.0">m,mm,x,xm,h,xi</extension>
+		<extension priority="1.0">c,m,mm,x,xm,h,xi</extension>
 	</detectors>
 	
 	<indentation>
@@ -98,21 +98,21 @@
 		<collection name="definitions">
 			<scope name="objc.tag.name">
 				<symbol type="tag" />
-				<expression>(@(selector|protocol|interface|class|property|end|implementation)\b)|((?&lt;=%)(hook|init|end|orig|new|ctor|group))</expression>
+				<expression>(@(selector|protocol|interface|class|property|end|implementation|synthesize)\b)|((?&lt;=%)(hook|init|end|orig|new|ctor|group|property))</expression>
 			</scope>
 			<scope name="objc.identifier.argument.name">
 				<symbol type="argument" />
-				<expression>((?&lt;!\) )\b[a-zA-Z]+(?=:(\S| )))|((?&lt;=(\.))([A-Za-z]*)\b)|\b(k[A-Z]+[A-Za-z0-9]+\b)</expression>
+				<expression>((?&lt;!\) )\b[a-zA-Z0-9]+(?=:(\S| )))|((?&lt;=(\.))([A-Za-z]*)\b)|\b(k[A-Z]+[A-Za-z0-9]+\b)|(([A-Za-z0-9_]*)(?=\())|((?&lt;=(\]|\)|[a-zA-Z0-9]))+\s([a-zA-Z0-9]*(?=\]))\b)</expression>
 			</scope>
 		</collection>
 		
 		<collection name="strings">
 			<scope name="objc.string">
 				<starts-with>
-					<expression>&quot;</expression>
+					<expression>&quot;|&apos;</expression>
 				</starts-with>
 				<ends-with>
-					<expression>&quot;</expression>
+					<expression>&quot;|&apos;</expression>
 				</ends-with>
 			</scope>
 		</collection>
@@ -138,9 +138,7 @@
 		
 		<collection name="keywords">
 			<scope name="objc.keyword">
-				<expression>\b(typedef\b|unsigned\b|goto\b|auto\b|sizeof\b|extern\b|break\b|catch\b|const\b|switch\b|case\b|return\b|self\b|static\b|bool\b|long\b|id\b|public\b|private\b|protected\b|function\b|class\b|if\b|else\b|while\b|for\b|char\b|int\b|float\b|double\b|void\b|unichar\b|([a-zA-Z]+\*)|(\b(CA|CG|CF|NS|UI)[A-Za-z0-9])\w+)</expression>
-				<!-- FIND CLASS INSTANCE METHODS LIKE initWithFrame: WITH THIS REGEX: [a-zA-Z]+(?=:(\S| [a-zA-Z0-9])) -->
-				<!-- FIND CONSTANTS LIKE kNilOptions WITH THIS REGEX: k[A-Z]+[A-Za-z0-9]+\b -->
+				<expression>\b(apple\b|super\b|instancetype\b|Class\b|Method\b|SEL\b|IMP\b|typedef\b|unsigned\b|goto\b|auto\b|sizeof\b|extern\b|break\b|catch\b|const\b|switch\b|case\b|return\b|self\b|static\b|bool\b|long\b|id\b|public\b|private\b|protected\b|function\b|class\b|if\b|else\b|while\b|for\b|char\b|int\b|float\b|double\b|void\b|unichar\b|([a-zA-Z]+\*)|(\b(CA|CG|CF|NS|UI|SK|SB)[A-Za-z0-9])\w+)|(([A-Za-z0-9]+_t)\b)</expression>
 			</scope>
 		</collection>
 		
@@ -150,6 +148,7 @@
 				<strings>
 					<string>null</string>
 					<string>nil</string>
+					<string>NULL</string>
 				</strings>
 			</scope>
 			<scope name="objc.value.boolean">

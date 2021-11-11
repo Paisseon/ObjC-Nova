@@ -1,4 +1,5 @@
 # ObjC-Nova
-The Objective-C language syntax highlighter built for [Nova](https://nova.app). Better than all other ObjC syntax highlighter extensions for Nova, ObjC-Nova reigns supreme at rank 1 out of 1!
 
-Please submit any feature requests, bug reports, PRs, fan mail, invitations to your Lovecraftian deity cult, or cute pictures of Emilia-tan to u/Paisseon on Reddit. I won't see or respond to anything on GitHub.
+The first, best, and thus far only [Nova](https://nova.app) extension for C, Objective-C, and Logos highlighting. ObjC-Nova is a syntax highlighter. It is not an autocompletion extension, a server-sided compiler, or anything else that can't be done in RegEx. But it highlights (Objective) C and Logos code pretty well.
+
+Please submit feature requests, bug reports, or pictures of Emilia-tan to u/Paisseon on Reddit or @EMT#0001 on Discord. I won't see anything on GitHub.
